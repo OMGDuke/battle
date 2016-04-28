@@ -17,8 +17,12 @@ class Game
     @defensive_player = switch defensive_player
   end
 
+  def over?
+    player_2.hp <= 0
+  end
+
   private
-  
+
   def switch player_type
     (player_type == player_1 ? player_2 : player_1)
   end

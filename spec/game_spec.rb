@@ -3,7 +3,8 @@ require 'game'
 describe Game do
 
   let(:bob) {double :player1, name: "bob"}
-  let(:ross) {double :player2, name: "ross"}
+  let(:ross) {double :player2, name: "ross", hp: 60}
+  let(:dead_ross) {double :player2, name: "ross", hp: 0}
   subject(:game) {described_class.new bob, ross}
 
   it "has a player 1" do
@@ -39,6 +40,22 @@ describe Game do
       expect(game.current_player).to eq ross
       expect(game.defensive_player).to eq bob
     end
+  end
+
+  describe "#over?" do
+
+    it "false while players have greater than zero health" do
+      expect(game).not_to be_over
+    end
+
+    context "player 2 has zero health" do
+      subject(:game) {described_class.new bob, dead_ross}
+      it "true when player 2's HP drops to zero" do
+        expect(game).to be_over
+      end
+    end
+
+
   end
 
 end
